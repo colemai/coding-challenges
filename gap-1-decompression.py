@@ -54,15 +54,15 @@ def simple_convert(compressed):
 	"""
 	Process simplest chunks of compressed string (those with one '[')
 	Input: STRING of shape 'num[string]' or 'num[string]string'
-	Output: STRING
+	Output: STRING, decompressed version of input
 	"""
 	decompressed = ''
 	intermediates = compressed.split('[')
-	# pdb.set_trace()
 	num = int(intermediates[0])
 	end_of_bracket = intermediates[1].find(']')
-	string = intermediates[1][:end_of_bracket] # note I cut out the last char -> ]
+	string = intermediates[1][:end_of_bracket] 
 	optional_end = intermediates[1][end_of_bracket+1:]
+	
 	decompressed = num * string
 	decompressed += optional_end
 	return decompressed
@@ -75,33 +75,31 @@ def decompress_string(compressed):
 	"""
 	decompressed = ''
 	
+	# If the compressed string is complex, break it into increasingly simple chunks
 	if compressed.count('[') > 1:
 		
-		# This chunk splits the string into logical pieces (top layer of num[str]'s)
+		# This bit splits the top layer into logical pieces
 		intermediate = compressed.split(']') 
 		intermediate = list(filter(None, intermediate)) # remove empty strings
-		# Iterate through the pieces, re-add delimiter and stitch pieces together where req'd
 		to_del = [] # Will need to delete elements that have been stitched to others
 		for i in range(0,len(intermediate) - 1):
 			intermediate[i] += ']'
 			if intermediate[i].count('[') > 1:
 				intermediate[i] += intermediate[i+1] + ']'
 				to_del.append(i+1)
-		# Now delete all the pieces that were stitched to other pieces
 		for index in sorted(to_del, reverse=True):
 			del intermediate[index]
 
-		# iterate thru pieces and if still more than one bracket then strip outtermost
+		# Now take the top layer pieces and tear open any that remain complex
 		for i in range(0, len(intermediate)):
 			if intermediate[i].count('[') > 1:
-				# pdb.set_trace()
+				# This bit recursively shirks off the top layer until single layered
 				first_bracket = intermediate[i].find('[')
 				prefix = intermediate[i].split('[')[0] + '['
 				body = intermediate[i][first_bracket+1:-1]
-				print('body ', body)
 				intermediate[i] = prefix + decompress_string(body) + ']'
-				print('frank ', intermediate[i])
-		# Now run all pieces through again
+		
+		# Now we can run all pieces through this function again
 		for x in intermediate:
 			decompressed += decompress_string(x)
 
@@ -113,7 +111,6 @@ def decompress_string(compressed):
 
 
 if __name__ == "__main__":
-	# First get input
 	compressed = get_input(argv[1])
 	decompressed = decompress_string(compressed)
 	print('Answer: ', decompressed)
