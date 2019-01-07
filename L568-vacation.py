@@ -26,14 +26,14 @@ Edge cases:
 
 def check_feasible (cities, flights):
 	"""
-	USED IN get_max_vacation
-	Input: (1,0,1) int tuple
+	USED IN: get_max_vacation
+	Input: 
+		cities - LIST of lists, each representing a possible combination of cities
+		flights - LIST of lists, matrix of flight status between cities
 	Output:
+		LIST of tuples, combinations of cities that are possible given flight statuses
 	"""
-	# print(cities, flights)
-	city_combinations = []
 	untenable_combos = []
-	# pdb.set_trace()
 	for combo in cities:
 		current_city = combo[0]
 		for i in range(0, len(combo)-1):
@@ -45,8 +45,6 @@ def check_feasible (cities, flights):
 			else:
 				current_city = destination_city
 
-	# print(cities)
-	# print(untenable_combos)
 	cities = [x for x in cities if x not in untenable_combos]
 	return cities
 
@@ -58,60 +56,32 @@ def get_max_vacation (flights, days):
 	Output:
 		INT, max num vacation days
 	"""
-	# Brute force collect all the 3n combinations from the days
-	# let's get the indices and combine those (easier)
-	indices = list(range(0,len(days[0])))
-	indice_perms = list(permutations(indices))
+	
+	# Get all possible city combination
+	cities = list(range(0,len(days[0]))) 
+	city_combos = list(permutations(cities))
 	perms = []
 	cities = []
 
-	indice_perms = check_feasible(indice_perms, flights)
-	# pdb.set_trace()
-	for i in range(0, len(indice_perms)):
-		# pdb.set_trace()
+	# Reduce city combinations to only ones that are possible given flight status
+	city_combos = check_feasible(city_combos, flights)
+	
+	# Convert city combinations into 'vacation days' combinations
+	for i in range(0, len(city_combos)):
 		tmp_perm = []
-		# tmp_cities = []
 		for j in range(0, len(days[0])):
-			tmp_perm.append(days[indice_perms[i][j]][j])
-			# tmp_cities.append()
+			tmp_perm.append(days[city_combos[i][j]][j])
 		perms.append(tmp_perm)
-	
-	# I want perms to be [ideal city combination]
-	# It currently is week days
-	# print(perms)
-	# print(indices)
-	# print(indice_perms)
-	# exit()
 
-	# exit()
-	# pdb.set_trace()
-	# combos = list(product(days))
-	# combos = list(set(list(combos))) # crudely get unique elements
-	# print(combos)
-	# print([(a,b,c) for a,b,c in zip(days[0],days[1],days[2])])
-	# exit()
-
-	# get which perms are feasible by flights
-	
-	# [x for x in perms if check_feasible(x)]
-
-
-	# order these by sum
+	# Order by total number of vacation days and print highest number
 	perms.sort(key=lambda x: sum(x), reverse=True)
-	print(perms)
-	print('Answer: ', sum(perms[0]))
-
-	# iterate through them and return the first one that is feasible by flights
-	# for perm in perms:
-		
-
+	return sum(perms[0])
 
 
 if __name__ == "__main__":
-	# Get the input in the correct format (will do manually for now)
+	# Input: (will manually enter for now)
 	flights = [[0,1,1],[1,0,1],[1,1,0]] # City status city
 	days = [[1,3,1],[6,0,3],[3,3,3]]
-	# days = [[1,0,3], [4,5,6], [7,8,9]] # City days week
+
 	answer = get_max_vacation(flights, days)
 	print(answer)
-	#
