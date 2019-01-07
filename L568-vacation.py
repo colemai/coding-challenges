@@ -65,6 +65,7 @@ def get_max_vacation (flights, days):
 
 	# Reduce city combinations to only ones that are possible given flight status
 	city_combos = check_feasible(city_combos, flights)
+	if not city_combos: return sum(days[0]) # in case of no feasible combinations
 	
 	# Convert city combinations into 'vacation days' combinations
 	for i in range(0, len(city_combos)):
@@ -73,6 +74,7 @@ def get_max_vacation (flights, days):
 			tmp_perm.append(days[city_combos[i][j]][j])
 		perms.append(tmp_perm)
 
+
 	# Order by total number of vacation days and print highest number
 	perms.sort(key=lambda x: sum(x), reverse=True)
 	return sum(perms[0])
@@ -80,8 +82,8 @@ def get_max_vacation (flights, days):
 
 if __name__ == "__main__":
 	# Input: (will manually enter for now)
-	flights = [[0,1,1],[1,0,1],[1,1,0]] # City status city
-	days = [[1,3,1],[6,0,3],[3,3,3]]
+	flights = [[0,0,0],[0,0,0],[0,0,0]] # City status city
+	days = [[1,1,1],[7,7,7],[7,7,7]]
 
 	answer = get_max_vacation(flights, days)
 	print(answer)
