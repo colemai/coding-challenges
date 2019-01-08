@@ -9,7 +9,6 @@ Output: INT max number of vacation days
 
 from sys import argv
 import pdb
-from itertools import product
 from itertools import permutations
 
 
@@ -33,6 +32,9 @@ def check_feasible (cities, flights):
 	Output:
 		LIST of tuples, combinations of cities that are possible given flight statuses
 	"""
+	assert isinstance(cities, list), 'cities should be lists'
+	assert not (not cities), 'cities should not be empty'
+
 	untenable_combos = []
 	for combo in cities:
 		current_city = combo[0]
@@ -56,7 +58,11 @@ def get_max_vacation (flights, days):
 	Output:
 		INT, max num vacation days
 	"""
-	
+	assert isinstance(flights, list), 'flights should be lists'
+	assert isinstance(days, list), 'days should be lists'
+	assert not (not days), 'days should not be empty'
+	assert not (not flights), 'flights should not be empty'
+
 	# Get all possible city combination
 	cities = list(range(0,len(days[0]))) 
 	city_combos = list(permutations(cities))
