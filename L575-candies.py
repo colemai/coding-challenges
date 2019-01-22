@@ -11,6 +11,7 @@ from sys import argv
 import pdb
 import ast
 from collections import Counter
+from time import time
 
 """
 Questions about the question:
@@ -40,31 +41,20 @@ def distribute_candies (candies):
 	Example: distribute_candies([1,1,-2,-2,3,3]) # 3
 	"""
 	total_candies = len(candies)
-	brothers_quota = total_candies//2
-	sister_types = 0
+	sis_quota = total_candies//2
 	unique_types = set(candies)
-	counts = Counter(candies).values() # Get list of value counts
-	counts = sorted(counts, reverse=True)
-
-	for i in range(0, len(counts)):
-		if counts[i] > 1 and (brothers_quota > 0):
-			if brothers_quota >= (counts[i] - 1):
-				brothers_quota -= (counts[i] - 1)
-				counts[i] = 1
-			else:
-				brothers_quota = 0
-		elif counts[i] == 1 and (brothers_quota > 0):
-			brothers_quota -= 1
-			counts[i] = 0
-		else:
-			break
-
-	counts = list(filter(lambda a: a != 0, counts))
-	sister_types = len(counts)
-	return(sister_types)
+	ans = min(sis_quota, len(unique_types))
+	return ans
 
 
 if __name__ == "__main__":
 	candies = get_list(argv[1])
+	t1 = time()
+
+	candies = [1,1,1,1,7,8,7,9]
 	answer = distribute_candies(candies)
+	print('time: ', time()-t1)
 	print(answer)
+
+	assert distribute_candies([1,1,2,3]) == 2, 'candies 1123 fail'
+	assert distribute_candies([1,1,2,3,1,4]) == 3, 'candies 112314 fail'
