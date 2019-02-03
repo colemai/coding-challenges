@@ -23,9 +23,9 @@ from sympy.utilities.iterables import multiset_permutations
 # 4. Run Edge cases
 # 5. Write Tests
 
-# TODO make sure even numbers of each letter
-# make sure palindromic perm possible (only one uneven count)
-#
+# TODO make sure even numbers of each letter x
+# make sure palindromic perm possible (only one uneven count) x
+# use is palandrome as test
 
 
 # def make_permutations (s):
@@ -38,15 +38,15 @@ from sympy.utilities.iterables import multiset_permutations
 # 	return(list(perms))
 
 
-# def is_palindrome (s):
-# 	"""
-# 	Input: STRING s
-# 	Output: BOOLEAN, True if s is a palindrome
-# 	"""
-# 	if s[::-1] == s:
-# 		return True
-# 	else:
-# 		return False
+def is_palindrome (s):
+	"""
+	Input: STRING s
+	Output: BOOLEAN, True if s is a palindrome
+	"""
+	if s[::-1] == s:
+		return True
+	else:
+		return False
 
 def get_symmetrical_half (s):
 	""" 

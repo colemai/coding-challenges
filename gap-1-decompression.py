@@ -19,7 +19,7 @@ def get_input(input_file):
 def simple_convert(compressed):
 	"""
 	Process simplest chunks of compressed string (those with one '[')
-	Input: STRING of shape 'num[string]' or 'num[string]string'
+	Input: STRING of height 'num[string]' or 'num[string]string'
 	Output: STRING, decompressed version of input
 	"""
 	decompressed = ''
@@ -64,7 +64,7 @@ def decompress_string(compressed):
 				prefix = intermediate[i].split('[')[0] + '['
 				body = intermediate[i][first_bracket+1:-1]
 				intermediate[i] = prefix + decompress_string(body) + ']'
-		
+				
 		# Now we can run all pieces through this function again
 		for x in intermediate:
 			decompressed += decompress_string(x)
