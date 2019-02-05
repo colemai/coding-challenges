@@ -9,7 +9,8 @@ Output: LIST of strings, all legal combos of parenths
 
 import pdb
 from itertools import permutations
-
+from lib import testing
+import pytest
 
 """
 1. q
@@ -54,6 +55,7 @@ def genParenth(num):
     for i in num:
         outputs.append(opening+closing)
 
+@testing.profile # A profiling decorator
 def generatePa(n):
     # Stole this, way better than mine
         """
@@ -62,7 +64,6 @@ def generatePa(n):
         """
         ans = [] 
         def backtrack(S = '', left = 0, right = 0):
-            pdb.set_trace()
             if(len(S) == 2*n):
                 ans.append(S)
                 return
@@ -75,10 +76,11 @@ def generatePa(n):
         backtrack()
         return ans
 
-
+def test_sum():
+    assert sum([1,3]) == 4, 'Lister not right'
 
 if __name__ == "__main__":
-    # Make string of n
     n = 2
     ans = generatePa(n)
+    test_sum()
     print(ans)
