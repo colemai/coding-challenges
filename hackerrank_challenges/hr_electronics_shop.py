@@ -8,10 +8,15 @@ Output:
 """
 
 def getMoneySpent(keyboards, drives, b):
-    #
-    # Write your code here.
-    #
-    return -1
+    min_spend = min(keyboards) + min(drives)
+    if min_spend > b:
+    	return -1
+
+    possible_spends = []
+    for keyboard in keyboards:
+    	possible_spends += [keyboard + x for x in drives]
+    possible_spends = [x for x in possible_spends if x <= b]
+    return max(possible_spends)
 
 
 if __name__ == "__main__":
