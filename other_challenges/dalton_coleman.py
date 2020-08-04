@@ -3,25 +3,7 @@
 """
 Author: Ian Coleman
 Purpose: Coding challenge
-Input: 
-Output: 
-Example Run: 
 
-
-Plan:
-1. Read challenge three times
-2. Plan
-3. Implement brute solution
-4. Account for edge cases
-5. Adapt or rewrite for readability, modularity, PEP8 style
-6. Adapt or rewrite for efficency
-7. Adapt or rewrite for security
-8. Sanity checks
-
-
-Task:
-1. Create n by n grid
-2. 
 """
 
 
@@ -51,8 +33,13 @@ def print_grid(grid):
 
 
 def delete_v(g, i, j):
+    """ Delete a column seperator """ 
+    if i == 1:
+        converted_row =  2
+    else: 
+        converted_row = 2 + (2 * (i - 1)) 
     converted_column = ((j) * 2) + (j + 1)
-    converted_row = ((i - 1) * 2) + i 
+
     string_to_change = g[converted_row]
     new_string = string_to_change[:converted_column] \
         + " " + string_to_change[converted_column + 1:]
@@ -61,27 +48,26 @@ def delete_v(g, i, j):
     return grid
 
 
-# def delete_h(g, i, j):
-#     pdb.set_trace()
-#     converted_column = ((j) * 2) + (j + 1)
-#     converted_row = ((i - 1) * 2) + i 
-#     string_to_change = g[converted_row]
-#     new_string = string_to_change[:converted_column] \
-#         + " " + string_to_change[converted_column + 1:]
-#     g[converted_row] = new_string
+def delete_h(g, i, j):
+    """ Delete a row seperator """ 
+    # pdb.set_trace()
+    if i == 1:
+        converted_row = 3
+    else: 
+        converted_row = 3 + (2 * (i - 1))
+    converted_column = ((j - 1) * 2) + j + 1
+
+
+    string_to_change = g[converted_row]
+    new_string = string_to_change[:converted_column] \
+        + "  " + string_to_change[converted_column + 2:]
+    g[converted_row] = new_string
     
-#     return grid
+    return grid
 
 if __name__ == "__main__":
-    grid = new_grid(3)
+    grid = new_grid(5)
     print_grid(grid)
-    new_grid = delete_v(grid, 2, 3)
-    # new_grid = delete_h(grid, 2, 3)
-    print_grid(grid)
-
-
-    # assert sherlockAndAnagrams("mom") == 2
-    # assert type(options) is dict
-    # assert 'message' in options
-    # assert isinstance(options['message'], str)
-    # assert bool(options) == True
+    new_grid = delete_v(grid, 1, 1)
+    new_grid = delete_h(new_grid, 1, 1)
+    print_grid(new_grid)
