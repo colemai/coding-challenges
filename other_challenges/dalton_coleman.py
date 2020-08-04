@@ -27,7 +27,8 @@ Task:
 
 import pdb
 
-def print_grid(n):
+
+def new_grid(n):
     grid = []
 
     column_numbers = [str(x) for x in range(1, n + 1)]
@@ -45,10 +46,39 @@ def print_grid(n):
     return grid
 
 
-if __name__ == "__main__":
+def print_grid(grid):
+    [print(x) for x in grid]
+
+
+def delete_v(g, i, j):
+    converted_column = ((j) * 2) + (j + 1)
+    converted_row = ((i - 1) * 2) + i 
+    string_to_change = g[converted_row]
+    new_string = string_to_change[:converted_column] \
+        + " " + string_to_change[converted_column + 1:]
+    g[converted_row] = new_string
     
-    ans = print_grid(3)
-    [print(x) for x in ans]
+    return grid
+
+
+# def delete_h(g, i, j):
+#     pdb.set_trace()
+#     converted_column = ((j) * 2) + (j + 1)
+#     converted_row = ((i - 1) * 2) + i 
+#     string_to_change = g[converted_row]
+#     new_string = string_to_change[:converted_column] \
+#         + " " + string_to_change[converted_column + 1:]
+#     g[converted_row] = new_string
+    
+#     return grid
+
+if __name__ == "__main__":
+    grid = new_grid(3)
+    print_grid(grid)
+    new_grid = delete_v(grid, 2, 3)
+    # new_grid = delete_h(grid, 2, 3)
+    print_grid(grid)
+
 
     # assert sherlockAndAnagrams("mom") == 2
     # assert type(options) is dict
